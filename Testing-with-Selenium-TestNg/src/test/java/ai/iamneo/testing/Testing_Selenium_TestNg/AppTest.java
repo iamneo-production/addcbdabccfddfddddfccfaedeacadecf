@@ -1,87 +1,80 @@
 package ai.iamneo.testing.Testing_Selenium_TestNg;
-
-import org.testng.annotations.Test;
-import java.net.URL;
-import java.util.List;
-import java.io.IOException;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.AfterTest;
+import org.openqa.selenium.chrome.ChromeDriver;
 
-public class AppTest {
-    WebDriver driver = null;
-    String url = "https://www.facebook.com";
-    ChromeOptions options = new ChromeOptions();
+public class FacebookSignUpTest {
 
-    @BeforeTest
-    public void beforeTest() throws IOException {
+    public static void main(String[] args) {
+		WebDriver driver = null;
+	    ChromeOptions options = new ChromeOptions();
+        // Set the path to ChromeDriver executable
         System.setProperty("webdriver.chrome.driver", "/home/coder/project/workspace/chromedriver");
-        driver = new RemoteWebDriver(new URL("http://localhost:8080"), options);
-    }
-
-    @Test
-    public void facebookSignUpTest() {
-        // Step 1: Open the Chrome browser and navigate to the URL
-        driver.get(url);
-
-        // Step 2: Verify that the page is redirected to "https://www.facebook.com"
-        String currentUrl = driver.getCurrentUrl();
-        if (currentUrl.equals("https://www.facebook.com")) {
-            System.out.println("Page redirected to https://www.facebook.com");
-        } else {
-            System.out.println("Page not redirected to https://www.facebook.com");
-        }
-
-        // Step 3: Verify that there is a "Create an account" section on the page.
-        try {
-            WebElement createAccountSection = driver.findElement(By.id("u_0_13")); 
-            if (createAccountSection.isDisplayed()) {
-                System.out.println("Create an account section is present on the page");
-            } else {
-                System.out.println("Create an account section is NOT present on the page");
-            }
-        } catch (NoSuchElementException e) {
-            System.out.println("Create an account section is NOT present on the page");
-        }
-
-        // Step 4: Fill in the text boxes: First Name, Surname, Mobile Number or email address,
-        // "Re-enter mobile number", new password.
-        driver.findElement(By.name("firstname")).sendKeys("John");
-        driver.findElement(By.name("lastname")).sendKeys("Doe");
-        driver.findElement(By.name("reg_email__")).sendKeys("johndoe@example.com");
-        driver.findElement(By.name("reg_email_confirmation__")).sendKeys("johndoe@example.com");
-        driver.findElement(By.name("reg_passwd__")).sendKeys("myPassword123");
-
-        // Step 5: Update the date of birth in the drop-down.
-        driver.findElement(By.name("birthday_day")).sendKeys("15");
-        driver.findElement(By.name("birthday_month")).sendKeys("March");
-        driver.findElement(By.name("birthday_year")).sendKeys("1990");
-
-        // Step 6: Select gender.
-        driver.findElement(By.name("sex")).click(); // Assuming there's a valid gender option with the name "sex"
-
-        // Step 7: Click on "Create an account".
-        driver.findElement(By.name("websubmit")).click();
-
-        // Step 8: Verify that the account is created successfully.
-        WebElement successMessageElement = driver.findElement(By.xpath("//div[contains(text(), 'Welcome to Facebook')]"));
-        if (successMessageElement.isDisplayed()) {
-            System.out.println("Account created successfully!");
-        } else {
-            System.out.println("Failed to create an account.");
-        }
+		driver = new RemoteWebDriver(new URL("http://localhost:8080"), options);
 
         
 
-    }
+        // Navigate to the Facebook Sign Up page
+        driver.get("http://www.fb.com");
 
-    @AfterTest
-    public void afterTest() {
+        // Verify if the page is redirected to "http://www.facebook.com"
+        String currentURL = driver.getCurrentUrl();
+        if (currentURL.equals("http://www.facebook.com")) {
+            System.out.println("Page redirected to Facebook Sign Up page successfully.");
+        } else {
+            System.out.println("Page redirection failed.");
+        }
+
+        // Verify that there is a "Create an account" section on the page
+        WebElement createAccountSection = driver.findElement(By.id("signup_form"));
+        if (createAccountSection.isDisplayed()) {
+            System.out.println("Create an account section found on the page.");
+        } else {
+            System.out.println("Create an account section not found.");
+        }
+
+        // Fill in the text boxes
+        driver.findElement(By.name("firstname")).sendKeys("John");
+        driver.findElement(By.name("lastname")).sendKeys("Doe");
+        driver.findElement(By.name("reg_email__")).sendKeys("example@example.com");
+        driver.findElement(By.name("reg_email_confirmation__")).sendKeys("example@example.com");
+        driver.findElement(By.name("reg_passwd__")).sendKeys("P@ssw0rd");
+
+        // Update the date of birth in the drop-down
+        WebElement dayDropdown = driver.findElement(By.id("day"));
+        WebElement monthDropdown = driver.findElement(By.id("month"));
+        WebElement yearDropdown = driver.findElement(By.id("year"));
+
+        // You can update the date of birth according to your requirement
+        dayDropdown.sendKeys("10");
+        monthDropdown.sendKeys("Jan");
+        yearDropdown.sendKeys("1990");
+
+        // Select gender
+        driver.findElement(By.cssSelector("input[name='sex'][value='2']")).click(); // Assuming '2' is the value for Female
+
+        // Click on "Create an account"
+        driver.findElement(By.name("websubmit")).click();
+
+        // Wait for the account to be created successfully (You might need to implement wait mechanisms here)
+        // For simplicity, let's wait for 5 seconds
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Verify that the account is created successfully
+        // For the purpose of this example, let's check if the user is redirected to the home page
+        if (driver.getCurrentUrl().equals("https://www.facebook.com/")) {
+            System.out.println("Account created successfully!");
+        } else {
+            System.out.println("Account creation failed.");
+        }
+
+        // Close the browser
         driver.quit();
     }
 }
+
