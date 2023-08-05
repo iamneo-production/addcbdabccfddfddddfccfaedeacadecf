@@ -37,7 +37,7 @@ public class AppTest {
         }
 
         // Step 3: Verify that there is a "Create an account" section on the page.
-        WebElement createAccountSection = driver.findElement(By.id("signup_form"));
+        WebElement createAccountSection = driver.findElement(By.id("u_0_0_NW")).click();
         if (createAccountSection.isDisplayed()) {
             System.out.println("Create an account section is present on the page");
         } else {
