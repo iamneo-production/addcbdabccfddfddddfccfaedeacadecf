@@ -39,7 +39,7 @@ public class AppTest {
 
         // Step 3: Verify that there is a "Create an account" section on the page.
         try {
-            WebElement createAccountSection = driver.findElement(By.id("u_0_13")); // Assuming the ID is correct
+            WebElement createAccountSection = driver.findElement(By.id("u_0_13")); 
             if (createAccountSection.isDisplayed()) {
                 System.out.println("Create an account section is present on the page");
             } else {
@@ -69,7 +69,6 @@ public class AppTest {
         driver.findElement(By.name("websubmit")).click();
 
         // Step 8: Verify that the account is created successfully.
-        // Here, we will check for the presence of a success message element after the account is created.
         WebElement successMessageElement = driver.findElement(By.xpath("//div[contains(text(), 'Welcome to Facebook')]"));
         if (successMessageElement.isDisplayed()) {
             System.out.println("Account created successfully!");
@@ -77,7 +76,7 @@ public class AppTest {
             System.out.println("Failed to create an account.");
         }
 
-        // Note: You may need to modify the locators above based on the actual HTML structure of the Facebook page.
+        
 
     }
 
