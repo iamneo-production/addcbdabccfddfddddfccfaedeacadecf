@@ -63,7 +63,7 @@ public class AppTest {
         // Step 7: Click on "Create an account".
         driver.findElement(By.name("websubmit")).click();
 
-        // Step 8: Verify that the account is created successfully.
+        
         
 
     }
